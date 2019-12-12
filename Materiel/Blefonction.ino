@@ -11,6 +11,7 @@ bool oldDeviceConnected = false;
 uint32_t valueNotify = 0;
 uint32_t isOn = 0;
 int LED = 2;
+int MOTEUR = 25;
 
 
 // See the following for generating UUIDs:
@@ -39,11 +40,15 @@ class MyCallbacks: public BLECharacteristicCallbacks {
       if (value== "0") {
         Serial.println("*********");
         Serial.print("VIBREUR OFF");
+        digitalWrite(MOTEUR, LOW);
+        digitalWrite(LED, LOW);
         isOn = 0;
       }
       else if (value== "1") {        
         Serial.println("*********");
         Serial.print("VIBREUR ON");
+        digitalWrite(MOTEUR, HIGH);
+        digitalWrite(LED, HIGH);
         isOn = 1;
       }
       
@@ -68,6 +73,8 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 void setup() {
   
   pinMode (LED, OUTPUT);
+  pinMode (MOTEUR, OUTPUT);
+
   
   Serial.begin(115200);
 
@@ -142,10 +149,8 @@ void loop() {
 
     if (isOn){
       //le vibreur s'allume
-      digitalWrite(LED, HIGH);
-      delay(500);
-      digitalWrite(LED, LOW);
-      delay(500);
+      
+
       
     }
 
